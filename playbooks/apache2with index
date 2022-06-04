@@ -1,0 +1,19 @@
+- hosts: all
+  become: yes
+  tasks: 
+    - name: install apache2
+      apt: 
+        name: apache2
+        update_cache: true
+        state: latest 
+    - name: copy file 
+      ansible.builtin.template: 
+        src:  "/home/ansible/playbooks/index.html"
+        dest:  "/var/www/html/index.html"
+      
+    - name: start serrvice
+      service: 
+        name: apache2
+        enabled: yes
+        state: restarted
+

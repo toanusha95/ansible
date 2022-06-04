@@ -1,0 +1,66 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks: 
+    - name: install nginx
+      apt: 
+        name: nginx
+        update_cache: true
+        state: latest 
+    - name: start serrvice
+      ansible.builtin.systemd:
+        state: started
+        name: nginx
+
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+  - name: "install nginx"
+    apt:
+      name: ['nginx']
+      update_cache: yes
+      state: latest
+  - name: 
+    template:
+      src: /home/ansible/playbooks/index.html
+      dest: /etc/nginx/html/index.html
+  - name: copy nginx site.conf
+    template:
+      src: /home/ansible/playbooks/site.conf
+      dest: /etc/nginx/sites-enabled/html/
+    notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+---
+'''
+<!DOCTYPE html>
+<html lang="en">
+  <title> </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <body>
+    <article class="vh-100 dt w-100 bg-dark-pink">
+      <div class="dtc v-mid tc white ph3 ph4-l">
+        <h1 class="f6 f2-m f-subheadline-l fw6 tc">Hello World!</h1>
+      </div>
+    </article>
+  </body>
+</html>
+'''
+---
+'''
+server {
+  listen 80;
+  listen [::]:80;
+  server_name html;
+  root /var/www/html;
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+'''

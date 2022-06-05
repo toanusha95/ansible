@@ -29,14 +29,17 @@
         dest: /usr/local/apache-tomcat-9.0.63/conf/tomcat-users.xml
     - name: copy file
       template: 
-        src: /home/ansible/playbooks/context1.xml
+        src: /home/ansible/playbooks/context.xml
         dest: /usr/local/apache-tomcat-9.0.63/webapps/manager/META-INF/context.xml
 
     - name : copy file1
       template: 
-        src: /home/ansible/playbooks/context1.xml
+        src: /home/ansible/playbooks/context.xml
         dest: /usr/local/apache-tomcat-9.0.63/webapps/host-manager/META-INF/context.xml
-
+    - name: copy gameoflife.war
+      template:
+        src: /home/ansible/playbooks/gameoflife.war
+        dest: /usr/local/apache-tomcat-9.0.63/webapps/
 
     - name: start services
       shell: nohup /usr/local/apache-tomcat-9.0.63/bin/startup.sh

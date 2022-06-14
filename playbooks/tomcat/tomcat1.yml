@@ -1,0 +1,51 @@
+- name: install tomcat
+  hosts: ubuntu
+  become: yes
+  vars: 
+    - java_version: openjdk-11-jdk
+    - tomcat_version: 9.0.63
+    - tomcat_url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-"{{ tomcat_version }}".tar.gz
+    - owner: ansible
+  tasks: 
+    - name: install java
+      apt:
+       name: "{{ java_version }}"
+       update_cache: yes
+       state: present
+    - name: download tomcat
+      get_url:
+       url: "{{ tomcat_url }}"
+       dest: /usr/local/
+    - name: untar tomcat
+      unarchive:
+        src: /usr/local/apache-tomcat-"{{ tomcat_version }}".tar.gz
+        dest: /usr/local/
+        remote_src: yes
+   
+    - name: change file permissions
+      file:
+        path: /usr/local/tomcat/
+        owner: "{{ owner }}"
+        group: "{{ owner }}"
+        state: directory
+        recurse: yes
+        mode: '1777'
+    - name: renaming the file to tomcat
+      command: mv /usr/local/apache-tomcat-"{{ tomcat_version }}" /usr/local/tomcat/
+    - name: copy conf file
+      template: 
+        src: /home/ansible/playbooks/tomcat-users.xml
+        dest: /usr/local/tomcat/apache-tomcat-9.0.63/conf/tomcat-users.xml
+    - name: copy file
+      template: 
+        src: /home/ansible/playbooks/context.xml
+        dest: /usr/local/tomcat/webapps/manager/META-INF/context.xml
+
+    - name : copy file1
+      template: 
+        src: /home/ansible/playbooks/context.xml
+        dest: /usr/local/tomcat/webapps/host-manager/META-INF/context.xml
+
+
+    - name: start services
+      shell: nohup /usr/local/tomcat/bin/startup.sh

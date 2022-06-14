@@ -1,0 +1,10 @@
+--- 
+hosts: all
+become: true
+tasks: 
+  - import_tasks: ubuntu.yml
+    when: ansible_facts['os_family'] == "Debian"
+  - import_tasks: red.yml
+    when: ansible_facts[ 'os_family'] == "RedHat"
+  - import_tasks: index.yml
+  - import_tasks: handlers.yml

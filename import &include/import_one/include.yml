@@ -1,0 +1,11 @@
+--- 
+- hosts: all
+  become: true
+  tasks: 
+    - include_tasks: ubuntu.yml
+      when: ansible_facts['os_family'] == "Debian"
+    - include_tasks: red.yml
+      when: ansible_facts[ 'os_family'] == "RedHat"
+    - include_tasks: index.yml
+    - include_tasks: handlers.yml
+    

@@ -1,0 +1,5 @@
+- name: copy indexfile
+  template: 
+    src: "/home/ansible/playbooks/index.html"
+    dest: "/var/www/apache/index.html"
+    

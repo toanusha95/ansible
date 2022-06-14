@@ -1,0 +1,14 @@
+##this is just for example for vault
+
+---
+- hosts: all 
+  become: yes 
+  vars_file: 
+    - vault.yml
+  tasks:
+    - name: install apche2 using vaults
+      apt:
+        name: "{{ apache_package }}"
+        update_cache: yes
+        state: present
+## run playbook using " ansible-playbook -i hosts apache.yml --ask-vault-pass"

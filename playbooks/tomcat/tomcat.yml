@@ -14,7 +14,7 @@
     - name: untar tomcat
       unarchive:
         src: /usr/local/apache-tomcat-9.0.63.tar.gz
-        dest: /usr/local/
+        dest: /usr/local
         remote_src: yes
     - name: change file permissions
       file:

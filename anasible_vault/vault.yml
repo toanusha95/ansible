@@ -1,0 +1,4 @@
+apache_package: "apache2"
+##this is encrypt using ansible vault
+## ansible-vault encrypt vault.yml
+## it ask password and encripted and it is use in playbook using vars_file

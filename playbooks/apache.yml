@@ -13,9 +13,9 @@
         enabled: yes
         state: restarted
 ---
-hosts: all 
-become: yes
-tasks:
+- hosts: all 
+  become: yes
+  tasks:
   - name: install apache2
     yum:
       name: httpd

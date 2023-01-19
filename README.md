@@ -1,2 +1,2 @@
 # ansible
-all ansible
+all ansible playbooks for practice

@@ -1,0 +1,26 @@
+sudo hostnamectl set-hostname rundeckserver
+sudo vi /etc/cloud/cloud.cfg(if it exist set preserve_hostname to true)
+sudo apt update
+sudo apt upgrade
+sudo apt install openjdk-11-jdk-headless
+curl -L https://packages.rundeck.com/pagerduty/rundeck/gpgkey | sudo apt-key add -
+	
+	#add sources
+	sudo vim /etc/apt/sources.list.d/rundeck.list
+	 
+	deb https://packages.rundeck.com/pagerduty/rundeck/any/ any main
+	deb-src https://packages.rundeck.com/pagerduty/rundeck/any/ any main
+    sudo apt update
+    sudo apt install rundeck
+    sudo vi /etc/rundeck/framework.properties
+    framework_servername= rundeckserver
+     framework_server.hostname= rundeckserver
+      framework_server_url= http://publicIP:4440
+    sudo vim /etc/rundeck/rundeck-config.properties
+    grauks.serverURL= http://PublicIP:4440
+    sudo systemctl enable rundeckd.service 
+	sudo systemctl start rundeckd.service 	
+	sudo systemctl status rundeckd.service 
+    /etc/rundeck/realm.properties
+    admin:admin,user,admin,architect,deploy,build
+    sudo ufw allow 4440
